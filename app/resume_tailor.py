@@ -12,6 +12,18 @@ import spacy
 import re
 from collections import Counter
 
+
+CUSTOM_STOP_WORDS = {
+    'job', 'work', 'need', 'use', 'new', 'good', 'great', 'san', 'jose',
+    'california', 'york', 'texas', 'india', 'remote', 'hybrid',
+    'salary', 'benefit', 'degree', 'bachelor', 'master', 'year', 'experience',
+    'company', 'team', 'role', 'position', 'opportunity', 'candidate',
+    'skill', 'ability', 'knowledge', 'strong', 'excellent', 'preferred',
+    'required', 'plus', 'bonus', 'base', 'range', 'incentive', 'revenue',
+    'sale', 'sell', 'client', 'customer', 'business', 'market', 'product',
+    'day', 'time', 'apply', 'please', 'form', 'may', 'also', 'full', 'onsite'
+}
+
 # Load spaCy model
 try:
     nlp = spacy.load("en_core_web_sm")
@@ -20,21 +32,34 @@ except:
     subprocess.run(["python", "-m", "spacy", "download", "en_core_web_sm"])
     nlp = spacy.load("en_core_web_sm")
 
+TECH_SKILLS_WHITELIST = {
+    'python', 'java', 'javascript', 'c++', 'c#', 'typescript', 'scala', 'golang', 'rust', 'php', 'ruby',
+    'react', 'angular', 'vue', 'node', 'django', 'flask', 'fastapi', 'spring',
+    'sql', 'mysql', 'postgresql', 'mongodb', 'redis', 'cassandra', 'elasticsearch',
+    'aws', 'azure', 'gcp', 'docker', 'kubernetes', 'terraform', 'ansible', 'jenkins',
+    'machine learning', 'deep learning', 'nlp', 'computer vision', 'tensorflow', 'pytorch',
+    'pandas', 'numpy', 'scikit', 'matplotlib', 'tableau', 'power bi',
+    'git', 'linux', 'bash', 'api', 'rest', 'graphql', 'microservices', 'agile', 'scrum',
+    'robotics', 'automation', 'plc', 'ros', 'embedded', 'arduino', 'raspberry',
+    'mechanical', 'electrical', 'circuit', 'sensor', 'actuator', 'vision',
+    'conveyor', 'integration', 'deployment', 'testing', 'debugging',
+    'project management', 'communication', 'leadership', 'training',
+    'data analysis', 'data science', 'data engineering', 'etl', 'pipeline',
+    'cybersecurity', 'networking', 'cloud', 'devops', 'mlops',
+    'mobile', 'android', 'ios', 'flutter', 'react native',
+    'figma', 'jira', 'confluence', 'notion', 'slack'
+}
+
 def extract_keywords_from_jd(jd_text):
-    """Extract important keywords from job description"""
-    doc = nlp(jd_text.lower())
+    """Extract important tech keywords from job description using whitelist"""
+    jd_lower = jd_text.lower()
     
-    # Extract nouns and technical terms
-    keywords = []
-    for token in doc:
-        if not token.is_stop and not token.is_punct and len(token.text) > 2:
-            keywords.append(token.lemma_)
+    found_skills = []
+    for skill in TECH_SKILLS_WHITELIST:
+        if skill in jd_lower:
+            found_skills.append(skill)
     
-    # Get most frequent keywords
-    keyword_counts = Counter(keywords)
-    top_keywords = [word for word, count in keyword_counts.most_common(30)]
-    
-    return top_keywords
+    return found_skills
 
 def extract_resume_text(resume_file, file_type):
     """Extract text from uploaded resume file"""
