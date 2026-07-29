@@ -23,3 +23,14 @@
 - Installed scikit-learn for match score calculation
 - Cleared spaCy cache issues
 
+## [Day 3] — 2026-07-29
+### Deployment
+- Deployed ApplyIQ on Streamlit Community Cloud
+- Added Supabase secrets to Streamlit Cloud
+- All features working on live deployment:
+  - Login/Signup
+  - Add Application
+  - My Applications with status update and delete
+  - Resume Tailor with match score and suggestions
+  - Analytics dashboard
+  - Logout
