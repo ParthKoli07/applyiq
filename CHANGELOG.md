@@ -13,3 +13,13 @@
 - Built streamlit_app.py — full UI with 5 pages
 - Dashboard, Add Application, My Applications, Resume Tailor, Analytics all working
 - Supabase database set up with users and applications tables
+
+## [Day 2] — 2026-07-26
+### Resume Tailor Feature
+- Fixed keyword extraction using whitelist approach
+- Only shows real tech/professional skills as missing keywords
+- Match score calculation using TF-IDF cosine similarity working
+- Suggestions showing PLC, C++, mechanical, conveyor, project management for robotics JD
+- Installed scikit-learn for match score calculation
+- Cleared spaCy cache issues
+
